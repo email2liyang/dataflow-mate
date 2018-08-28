@@ -19,6 +19,8 @@ package org.datanerd.dataflow;
 
 import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
+
+import org.apache.beam.sdk.transforms.windowing.AfterProcessingTime;
 import org.datanerd.dataflow.common.ExampleBigQueryTableOptions;
 import org.datanerd.dataflow.common.ExampleOptions;
 import org.datanerd.dataflow.common.WriteOneFilePerWindow;
@@ -198,7 +200,10 @@ public class WindowedWordCount {
      */
     PCollection<String> windowedWords =
         input.apply(
-            Window.into(FixedWindows.of(Duration.standardMinutes(options.getWindowSize()))));
+            Window.<String>into(FixedWindows.of(Duration.standardMinutes(options.getWindowSize())))
+                .withAllowedLateness(Duration.standardMinutes(1))
+                .triggering(AfterProcessingTime.pastFirstElementInPane().plusDelayOf(Duration.standardMinutes(1)))
+                .discardingFiredPanes());
 
     /*
      * Concept #4: Re-use our existing CountWords transform that does not have knowledge of
