@@ -14,3 +14,5 @@ run_window_word_count_flink:
 	-Pflink-runner
 clean:
 	rm counts*
+build:
+	mvn package
