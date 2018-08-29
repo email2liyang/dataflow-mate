@@ -1,0 +1,16 @@
+**/.idea
+**/target
+**/dependency-reduced-pom.xml
+**/*.jar
+**/*java.orig
+**/*.iml
+**/.DS_Store
+**/.testcontainers*
+etc/*.pom
+etc/*.dep
+etc/*.raw
+etc/*.class
+etc/*.report
+**/.gradle
+**/build
+**/out
