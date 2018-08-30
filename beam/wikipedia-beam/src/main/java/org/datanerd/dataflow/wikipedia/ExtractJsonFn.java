@@ -14,14 +14,14 @@ public class ExtractJsonFn extends DoFn<String, String> {
 
   @Setup
   public void setUp() {
-    pattern = Pattern.compile("data (.*)");
+    pattern = Pattern.compile("data: (.*)");
   }
 
   @ProcessElement
   public void processElement(@Element String element, OutputReceiver<String> receiver) {
     Matcher matcher = pattern.matcher(element);
     if (matcher.find()) {
-      receiver.output(matcher.group());
+      receiver.output(matcher.group(1));
     }
   }
 }

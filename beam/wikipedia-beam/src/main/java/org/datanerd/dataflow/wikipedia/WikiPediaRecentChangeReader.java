@@ -72,7 +72,7 @@ class WikiPediaRecentChangeReader extends UnboundedSource.UnboundedReader<String
     AtomicLong counter = new AtomicLong();
     while (queue.isEmpty()) {
       try {
-        log.warn("queue empty for {}s, system continue to pull the stream"
+        log.debug("queue empty for {}s, system continue to pull the stream"
             , 5 * counter.incrementAndGet());
         Thread.sleep(5000);
       } catch (InterruptedException e) {
@@ -81,8 +81,6 @@ class WikiPediaRecentChangeReader extends UnboundedSource.UnboundedReader<String
     }
 
     currentLine = queue.poll();
-    System.out.println("queue size " + queue.size());
-    System.out.println("pulling current line is null?" + (currentLine == null));
     return currentLine != null;
   }
 
@@ -99,7 +97,6 @@ class WikiPediaRecentChangeReader extends UnboundedSource.UnboundedReader<String
   @Override
   public void close() throws IOException {
     System.out.println("close");
-//    throw new IllegalStateException("xxx");
     if (bufferedReader != null) {
       bufferedReader.close();
     }
